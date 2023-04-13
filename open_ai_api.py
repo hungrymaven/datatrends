@@ -1,23 +1,20 @@
-import requests
+import openai
 
-# Set up API endpoint and headers
-url = "https://api.openai.com/v1/analyze_data"
-headers = {
-    "Content-Type": "text/csv",
-    "Authorization": f"Bearer {API_KEY}"
-}
+# Replace 'your_api_key' with your actual API key
+openai.api_key = "your_api_key"
 
-# Open and read the CSV file
-with open('example.csv', 'rb') as file:
-    csv_content = file.read()
+# Example: prompt for the OpenAI API
+prompt = "What are the most important variables for improving marketing campaigns?"
 
-# Send the file to the OpenAI API
-response = requests.post(url, headers=headers, data=csv_content)
+# Example: call the OpenAI API to generate a response
+response = openai.Completion.create(
+    engine="davinci-codex",
+    prompt=prompt,
+    max_tokens=100,
+    n=1,
+    stop=None,
+    temperature=0.5,
+)
 
-# Process the response
-if response.status_code == 200:
-    # Success! Process the response here
-    print(response.json())
-else:
-    # Error handling here
-    print(f"Error {response.status_code}: {response.text}")
+# Print the generated response
+print(response.choices[0].text.strip())
